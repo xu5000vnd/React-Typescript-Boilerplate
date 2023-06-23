@@ -1,0 +1,21 @@
+.layout {
+  position: absolute;
+  min-height: 100vh;
+  min-width: 100%;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  display: flex;
+  background-color: #f8f8f8;
+}
+
+.layout-content {
+  width: 100vw;
+  align-self: center;
+  margin-top: 64px;
+  padding-bottom: 50px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
