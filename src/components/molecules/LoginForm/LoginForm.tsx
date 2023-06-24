@@ -4,15 +4,55 @@ import Button from "../../atoms/Button/Button";
 import InputPassword from "../../atoms/InputPassword/InputPassword";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Form } from "antd";
+import AuthService from "../../../services/auth.service";
+import { redirect, useNavigate } from "react-router-dom";
+import { ROUTING } from "../../../constants/system.constant";
+import { setItem } from "../../../utils/storage.util";
+import { STORAGE_KEYS } from "../../../constants/storage.constant";
 
 const LoginForm: React.FC = () => {
-  const handleSubmit = (values: any) => {
-    // Perform login logic using the form values
-    console.log(values);
+  const navigate = useNavigate();
+  const [form] = Form.useForm();
+  const handleSubmit = async (values: any) => {
+    const data = await AuthService.login(values.email, values.password);
+    const { accessToken, error, message } = data;
+    if (error) {
+      form.setFields([
+        {
+          name: "password",
+          errors: [message],
+        },
+      ]);
+    }
+
+    if (accessToken) {
+      const queryUrl = window.location.search;
+      if (queryUrl) {
+        const queryObject: URLSearchParams = new URLSearchParams(queryUrl);
+        if (queryObject.get("return-url")) {
+          const returnUrl = decodeURIComponent(
+            queryObject.get("return-url") as string
+          );
+          redirect(returnUrl);
+        }
+      } else {
+        setItem(STORAGE_KEYS.AUTHENTICATION, accessToken);
+        navigate(ROUTING.dashboard, {
+          replace: true,
+        });
+      }
+    }
   };
 
   return (
-    <Form id="login-form" onFinish={handleSubmit}>
+    <Form
+      id="login-form"
+      onFinish={handleSubmit}
+      style={{
+        width: "400px",
+      }}
+      form={form}
+    >
       <h2>Login</h2>
       <Form.Item
         name="email"

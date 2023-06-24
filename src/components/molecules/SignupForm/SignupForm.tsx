@@ -1,18 +1,68 @@
 import React from "react";
-import { Form } from "antd";
+import { Form, Modal } from "antd";
 import Input from "../../atoms/Input/Input";
 import InputPassword from "../../atoms/InputPassword/InputPassword";
 import Button from "../../atoms/Button/Button";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import AuthService from "../../../services/auth.service";
+import {
+  ValidateFormType,
+  ValidateFieldType,
+} from "../../../common/types/validate.type";
+import { useNavigate } from "react-router-dom";
+import { ROUTING } from "../../../constants/system.constant";
 
 const SignupForm: React.FC = () => {
-  const onFinish = (values: any) => {
-    console.log("Received values:", values);
-    // Handle form submission
+  const navigate = useNavigate();
+  const [form] = Form.useForm();
+
+  const onFinish = async (values: any) => {
+    const data = await AuthService.signup(values.email, values.password);
+    if (data) {
+      const { error }: { error: string } = data;
+      if (error) {
+        const message: ValidateFormType = data.message;
+        if (message?.length) {
+          message.forEach((item: ValidateFieldType) => {
+            form.setFields([
+              {
+                name: item.field,
+                errors: [item.error],
+              },
+            ]);
+          });
+        }
+      } else {
+        const message: string = data.message;
+        Modal.info({
+          title: "Signup Success",
+          content: (
+            <div>
+              <p>{message}</p>
+            </div>
+          ),
+          onOk() {
+            navigate(ROUTING.login, {
+              replace: true,
+            });
+          },
+          okText: "Login",
+        });
+      }
+
+      console.log(data);
+    }
   };
 
   return (
-    <Form id="signup-form" onFinish={onFinish}>
+    <Form
+      id="signup-form"
+      onFinish={onFinish}
+      style={{
+        width: "400px",
+      }}
+      form={form}
+    >
       <h2>Signup</h2>
       <Form.Item
         name="email"
@@ -26,7 +76,16 @@ const SignupForm: React.FC = () => {
 
       <Form.Item
         name="password"
-        rules={[{ required: true, message: "Please enter your password" }]}
+        rules={[
+          { required: true, message: "Please enter your password" },
+          { min: 10, message: "Password must be at least 10 characters" },
+          {
+            pattern:
+              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%#*?&]+$/,
+            message:
+              "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
+          },
+        ]}
       >
         <InputPassword prefix={<LockOutlined />} placeholder="Password" />
       </Form.Item>

@@ -8,11 +8,13 @@ import LoginPage from "./components/pages/LoginPage/LoginPage";
 import NotFoundPage from "./components/pages/NotFoundPage/NotFoundPage";
 import "./styles/global.css";
 import SignupPage from "./components/pages/SignupPage/SignupPage";
+import { ROUTING } from "./constants/system.constant";
+import AuthService from "./services/auth.service";
 
 const isAuthenticated = () => {
-  // Implement your authentication logic here
-  // Return true if authenticated, false otherwise
-  // You can use cookies, JWT, or any other authentication mechanism
+  if (AuthService.checkAuth()) {
+    return true;
+  }
   return false;
 };
 
@@ -22,17 +24,17 @@ const App: React.FC = () => {
       {isAuthenticated() ? (
         <DashBoardLayout>
           <Routes>
-            <Route path="/" element={<DashBoard />} />
-            <Route element={<NotFoundPage />} />
+            <Route path={ROUTING.dashboard} element={<DashBoard />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </DashBoardLayout>
       ) : (
         <HomeLayout>
           <Routes>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignupPage />} />
-            <Route path="/" element={<Home />} />
-            <Route element={<NotFoundPage />} />
+            <Route path={ROUTING.login} element={<LoginPage />} />
+            <Route path={ROUTING.signup} element={<SignupPage />} />
+            <Route path={ROUTING.home} element={<Home />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </HomeLayout>
       )}

@@ -1,14 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Layout, Menu } from "antd";
-import "./Header.styles.css";
+import "./HeaderAuth.styles.css";
 import { ROUTING } from "../../../constants/system.constant";
 const { Header } = Layout;
 
-const HeaderMenu: React.FC = () => {
+const HeaderAuthMenu: React.FC = () => {
   let pathName =
-    window.location.pathname === "/" ? "home" : window.location.pathname;
-  if (pathName !== "home") {
+    window.location.pathname === "/" ? "dashboard" : window.location.pathname;
+  if (pathName !== "dashboard") {
     pathName = pathName.split("/")[1];
   }
   return (
@@ -27,14 +27,11 @@ const HeaderMenu: React.FC = () => {
             defaultSelectedKeys={[pathName]}
             className="header-menu"
           >
-            <Menu.Item key="home">
-              <Link to={ROUTING.home}>Home</Link>
+            <Menu.Item key="dashboard">
+              <Link to={ROUTING.dashboard}>Dash Board</Link>
             </Menu.Item>
-            <Menu.Item key="login">
-              <Link to={ROUTING.login}>Login</Link>
-            </Menu.Item>
-            <Menu.Item key="signup">
-              <Link to={ROUTING.signup}>SignUp</Link>
+            <Menu.Item key="items">
+              <Link to={ROUTING.auth.items.list}>Items</Link>
             </Menu.Item>
           </Menu>
         </div>
@@ -43,4 +40,4 @@ const HeaderMenu: React.FC = () => {
   );
 };
 
-export default HeaderMenu;
+export default HeaderAuthMenu;

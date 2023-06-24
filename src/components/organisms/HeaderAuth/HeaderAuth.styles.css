@@ -1,0 +1,13 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  position: absolute;
+  min-width: 766px;
+  z-index: 1;
+}
+
+.header-menu {
+  line-height: 64px;
+}
