@@ -1,11 +1,17 @@
 .header {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  height: 90px;
+  padding: 0 32px;
+  background-color: white;
+  box-shadow: $base-card-shadow;
+  z-index: 99;
+  top: 0;
+  left: 0;
+  right: 0;
   width: 100%;
-  position: absolute;
-  min-width: 766px;
-  z-index: 1;
+  position: fixed;
+  display: flex;
 }
 
 .header-menu {

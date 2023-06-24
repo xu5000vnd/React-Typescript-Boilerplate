@@ -1,8 +1,7 @@
 import { STORAGE_KEYS } from "../constants/storage.constant";
 import { getItem, removeItem } from "../utils/storage.util";
 import apiClient from "../utils/http.util";
-import { API_URL, ROUTING } from "../constants/system.constant";
-import { redirect } from "react-router-dom";
+import { API_URL } from "../constants/system.constant";
 
 class AuthService {
   static async login(email: string, password: string) {
@@ -20,7 +19,7 @@ class AuthService {
   static logout() {
     try {
       removeItem(STORAGE_KEYS.AUTHENTICATION);
-      redirect(ROUTING.home);
+      removeItem(STORAGE_KEYS.USER_EMAIL);
     } catch (error) {
       console.error("Logout failed:", error);
       throw new Error("Logout failed");

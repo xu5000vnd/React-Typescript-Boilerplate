@@ -7,12 +7,12 @@ import axios, {
 import { getItem } from "./storage.util";
 import { STORAGE_KEYS } from "../constants/storage.constant";
 import { BASE_URL, ROUTING } from "../constants/system.constant";
-import { redirect } from "react-router-dom";
+import AuthService from "../services/auth.service";
 
 const redirectToLogin = () => {
-  redirect(
-    ROUTING.login + `?redirect-url=${encodeURIComponent(window.location.href)}`
-  );
+  AuthService.logout();
+  window.location.href =
+    ROUTING.login + `?return-url=${encodeURIComponent(window.location.href)}`;
 };
 
 class ApiClient {
@@ -47,6 +47,10 @@ class ApiClient {
       },
       (error: AxiosError) => {
         const response = error.response;
+        console.log(
+          "🚀 ~ file: http.util.ts:50 ~ ApiClient ~ constructor ~ response:",
+          response
+        );
         if (response) {
           if (response.status === 401) redirectToLogin();
         }

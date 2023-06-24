@@ -5,17 +5,24 @@ import InputPassword from "../../atoms/InputPassword/InputPassword";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Form } from "antd";
 import AuthService from "../../../services/auth.service";
-import { redirect, useNavigate } from "react-router-dom";
 import { ROUTING } from "../../../constants/system.constant";
 import { setItem } from "../../../utils/storage.util";
 import { STORAGE_KEYS } from "../../../constants/storage.constant";
 
+const afterLoginRedirect = (data: any, returnUrl: string) => {
+  console.log(
+    "🚀 ~ file: LoginForm.tsx:34 ~ handleSubmit ~ returnUrl:",
+    returnUrl
+  );
+  setItem(STORAGE_KEYS.AUTHENTICATION, data?.accessToken);
+  setItem(STORAGE_KEYS.USER_EMAIL, data?.email);
+  window.location.href = returnUrl;
+};
 const LoginForm: React.FC = () => {
-  const navigate = useNavigate();
   const [form] = Form.useForm();
   const handleSubmit = async (values: any) => {
     const data = await AuthService.login(values.email, values.password);
-    const { accessToken, error, message } = data;
+    const { error, message } = data;
     if (error) {
       form.setFields([
         {
@@ -25,22 +32,18 @@ const LoginForm: React.FC = () => {
       ]);
     }
 
-    if (accessToken) {
+    if (data?.accessToken) {
+      let returnUrl = ROUTING.dashboard;
       const queryUrl = window.location.search;
       if (queryUrl) {
         const queryObject: URLSearchParams = new URLSearchParams(queryUrl);
         if (queryObject.get("return-url")) {
-          const returnUrl = decodeURIComponent(
+          returnUrl = decodeURIComponent(
             queryObject.get("return-url") as string
           );
-          redirect(returnUrl);
         }
-      } else {
-        setItem(STORAGE_KEYS.AUTHENTICATION, accessToken);
-        navigate(ROUTING.dashboard, {
-          replace: true,
-        });
       }
+      afterLoginRedirect(data, returnUrl);
     }
   };
 
