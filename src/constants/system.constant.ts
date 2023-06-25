@@ -22,7 +22,8 @@ export const API_URL = {
     deposit: "/credit/deposit",
   },
   bid: {
-    create: "/bids/item/:itemId",
+    create: "/bids/items/:itemId",
+    getItems: "/bids/items",
   },
 };
 

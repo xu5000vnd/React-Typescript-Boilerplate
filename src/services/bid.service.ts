@@ -1,4 +1,3 @@
-import _ from "lodash";
 import apiClient from "../utils/http.util";
 import { API_URL } from "../constants/system.constant";
 import { replaceAll } from "../utils/common.util";
@@ -14,11 +13,20 @@ class BidService {
         replaceAll(API_URL.bid.create, {
           itemId,
         }),
-        dataForm
+        { ...dataForm }
       );
       return data;
     } catch (error) {
       throw new Error("Bid failed");
+    }
+  }
+
+  static async getItems() {
+    try {
+      const data = await apiClient.get(API_URL.bid.getItems);
+      return data;
+    } catch (error) {
+      throw new Error("Get List Item for Bid failed");
     }
   }
 }
