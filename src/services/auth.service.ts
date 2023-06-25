@@ -19,7 +19,7 @@ class AuthService {
   static logout() {
     try {
       removeItem(STORAGE_KEYS.AUTHENTICATION);
-      removeItem(STORAGE_KEYS.USER_EMAIL);
+      removeItem(STORAGE_KEYS.USER_INFO);
     } catch (error) {
       console.error("Logout failed:", error);
       throw new Error("Logout failed");

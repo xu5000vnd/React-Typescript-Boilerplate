@@ -1,6 +1,6 @@
 import { isJson } from "./common.util";
 
-export function getItem(key: string): string | null {
+export function getItem(key: string): any {
   try {
     const value = localStorage.getItem(key);
     if (isJson(value)) {

@@ -15,7 +15,7 @@ const afterLoginRedirect = (data: any, returnUrl: string) => {
     returnUrl
   );
   setItem(STORAGE_KEYS.AUTHENTICATION, data?.accessToken);
-  setItem(STORAGE_KEYS.USER_EMAIL, data?.email);
+  setItem(STORAGE_KEYS.USER_INFO, JSON.stringify(data));
   window.location.href = returnUrl;
 };
 const LoginForm: React.FC = () => {

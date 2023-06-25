@@ -1,19 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Dropdown, Layout, Menu } from "antd";
 import "./HeaderAuth.styles.css";
 import { ROUTING } from "../../../constants/system.constant";
 import { UserOutlined } from "@ant-design/icons";
-import { getItem } from "../../../utils/storage.util";
-import { STORAGE_KEYS } from "../../../constants/storage.constant";
 import Button from "../../atoms/Button/Button";
+import { AuthContext } from "../../../hooks/auth.context";
 const { Header } = Layout;
 
 const HeaderAuthMenu: React.FC = () => {
   let pathName = window.location.pathname;
   pathName = pathName.split("/")[1];
-
-  const userEmail = getItem(STORAGE_KEYS.USER_EMAIL) || "";
+  const { user } = useContext(AuthContext);
+  const balance = user?.balance || 0;
   const navigate = useNavigate();
   const menu = (
     <Menu theme="light" mode="horizontal" className="header-menu">
@@ -60,7 +59,7 @@ const HeaderAuthMenu: React.FC = () => {
               marginRight: "10px",
             }}
           >
-            {userEmail}
+            Balance: {balance}
           </span>
           <Dropdown overlay={menu} placement="bottomRight">
             <span>

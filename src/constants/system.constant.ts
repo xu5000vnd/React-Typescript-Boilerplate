@@ -11,10 +11,12 @@ export const API_URL = {
     listFinished: "/items/finished",
     detail: "/items/:itemId",
     create: "/items",
+    publish: "/items/:itemId/publish",
   },
   user: {
     detail: "/users/:userId",
-    myProfile: "/users/my-profile",
+    myProfile: "/users/profile",
+    getItems: "/users/:userId/items",
   },
   credit: {
     deposit: "/credit/deposit",
@@ -35,6 +37,7 @@ export const ROUTING = {
     items: {
       list: "/items",
       detail: "/items/:itemId",
+      create: "/items/create",
     },
     credit: {
       deposit: "/credit/deposit",

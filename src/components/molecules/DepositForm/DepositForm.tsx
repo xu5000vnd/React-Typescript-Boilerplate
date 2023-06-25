@@ -1,24 +1,35 @@
-import React from "react";
-import Input from "../../atoms/Input/Input";
+import React, { useContext } from "react";
 import Button from "../../atoms/Button/Button";
 import { Form, Modal, InputNumber } from "antd";
 import CreditService from "../../../services/credit.service";
+import UserService from "../../../services/user.service";
+import { AuthContext } from "../../../hooks/auth.context";
+import {
+  ValidateFieldType,
+  ValidateFormType,
+} from "../../../common/types/validate.type";
 
 const DepositForm: React.FC = () => {
+  const { updateUser } = useContext(AuthContext);
   const [form] = Form.useForm();
   const handleSubmit = async (values: any) => {
     const dataForm = {
       amount: values.amount,
     };
     const data = await CreditService.deposit(dataForm);
-    const { error, message } = data;
+    const { error } = data;
     if (error) {
-      form.setFields([
-        {
-          name: "amount",
-          errors: [message],
-        },
-      ]);
+      let message: ValidateFormType = data.message;
+      if (message?.length) {
+        message.forEach((item: ValidateFieldType) => {
+          form.setFields([
+            {
+              name: item.field,
+              errors: [item.error],
+            },
+          ]);
+        });
+      }
     } else {
       const message: string = data.message;
       Modal.info({
@@ -28,7 +39,9 @@ const DepositForm: React.FC = () => {
             <p>{message}</p>
           </div>
         ),
-        onOk() {
+        async onOk() {
+          const userProfile = await UserService.getMyProfile();
+          updateUser(userProfile);
           form.resetFields();
         },
       });
@@ -49,7 +62,7 @@ const DepositForm: React.FC = () => {
         name="amount"
         rules={[
           { required: true, message: "Amount is required" },
-          { type: "number", message: "Invalid number format" },
+          { type: "number", min: 0, message: "Invalid number format" },
         ]}
       >
         <InputNumber style={{ width: "100%" }} placeholder="Amount" />

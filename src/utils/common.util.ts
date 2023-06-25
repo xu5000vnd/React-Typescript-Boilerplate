@@ -10,9 +10,11 @@ export const isJson = (str: any): boolean => {
 };
 
 export const replaceAll = (
-  templateString: string,
+  str: string,
   options?: { [key: string]: any }
 ) => {
-  const compiledTemplate = _.template(templateString);
-  return compiledTemplate(options);
+  for (const key in options) {
+    str = str.replace(`:${key}`, options[key]);
+  }
+  return str;
 };

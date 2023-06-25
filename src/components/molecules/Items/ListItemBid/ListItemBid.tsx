@@ -1,7 +1,7 @@
 import React from "react";
 import { Table } from "antd";
 
-interface Item {
+interface ItemBid {
   name: string;
   amount: number;
   lastBid: number;
@@ -10,10 +10,10 @@ interface Item {
 }
 
 interface ItemTableProps {
-  items: Item[];
+  items: ItemBid[];
 }
 
-const ItemTable: React.FC<ItemTableProps> = ({ items }) => {
+const ItemBidTable: React.FC<ItemTableProps> = ({ items }) => {
   const columns = [
     {
       title: "Name",
@@ -45,4 +45,4 @@ const ItemTable: React.FC<ItemTableProps> = ({ items }) => {
   return <Table dataSource={items} columns={columns} />;
 };
 
-export default ItemTable;
+export default ItemBidTable;
