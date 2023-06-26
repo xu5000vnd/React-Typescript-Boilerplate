@@ -8,7 +8,7 @@ export const API_URL = {
   item: {
     list: "/items",
     listBid: "/items/bid",
-    listFinished: "/items/finished",
+    listFinished: "/items/completion",
     detail: "/items/:itemId",
     create: "/items",
     publish: "/items/:itemId/publish",

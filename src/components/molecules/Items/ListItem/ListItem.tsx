@@ -5,6 +5,7 @@ import ItemService from "../../../../services/item.service";
 import { useQuery } from "react-query";
 import UserService from "../../../../services/user.service";
 import Button from "../../../atoms/Button/Button";
+import { formatDate } from "../../../../utils/common.util";
 
 interface Item {
   id?: number;
@@ -69,11 +70,14 @@ const ItemTable: React.FC = (props) => {
       title: "Published At",
       dataIndex: "publishedAt",
       key: "publishedAt",
+      render: (publishedAt: string, row: any) =>
+        formatDate(new Date(publishedAt)),
     },
     {
       title: "Ended At",
       dataIndex: "endedAt",
       key: "endedAt",
+      render: (endedAt: string, row: any) => formatDate(new Date(endedAt)),
     },
     {
       title: "Action",
