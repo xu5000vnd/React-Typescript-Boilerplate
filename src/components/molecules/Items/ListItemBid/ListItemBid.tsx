@@ -90,6 +90,11 @@ const ItemBidTable: React.FC = (props) => {
             return "";
           }
         }
+        const restTime = new Date(row.endedAt).getTime() - new Date().getTime();
+        if (restTime < 0) {
+          return "";
+        }
+
         return (
           <Button
             type="default"

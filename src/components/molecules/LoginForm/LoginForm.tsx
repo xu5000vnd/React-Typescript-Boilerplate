@@ -10,10 +10,6 @@ import { setItem } from "../../../utils/storage.util";
 import { STORAGE_KEYS } from "../../../constants/storage.constant";
 
 const afterLoginRedirect = (data: any, returnUrl: string) => {
-  console.log(
-    "🚀 ~ file: LoginForm.tsx:34 ~ handleSubmit ~ returnUrl:",
-    returnUrl
-  );
   setItem(STORAGE_KEYS.AUTHENTICATION, data?.accessToken);
   setItem(STORAGE_KEYS.USER_INFO, JSON.stringify(data));
   window.location.href = returnUrl;
