@@ -24,9 +24,7 @@
   },
   "scripts": {
     "dev": "webpack-dev-server --open --mode development",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "build-webpack": "webpack --mode production",
+    "build": "webpack --mode production",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -56,6 +54,7 @@
     "babel-loader": "^9.1.2",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.8.1",
+    "dotenv-webpack": "^8.0.1",
     "html-webpack-plugin": "^5.5.3",
     "style-loader": "^3.3.3",
     "ts-loader": "^9.4.3",

@@ -35,6 +35,7 @@ const App: React.FC = () => {
           {isAuthenticated() ? (
             <DashBoardLayout>
               <Routes>
+                <Route path="/" element={<DashBoard />} />
                 <Route path={ROUTING.dashboard} element={<DashBoard />} />
                 <Route path={ROUTING.auth.items.list} element={<ItemPage />} />
                 <Route
