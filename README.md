@@ -3,7 +3,7 @@
 This project is an assignment homework. \
 Tech Stacks: React 18, Atomic Design, Ant Design \
 Nodejs: v18.16.0 \
-Backend [jitera-backend](https://github.com/xu5000vnd/jitera-backend)
+Backend [Nestjs-backend](https://github.com/xu5000vnd/Nestjs-Boilerplate)
 ## Available Scripts
 
 In the project directory, you can run:
